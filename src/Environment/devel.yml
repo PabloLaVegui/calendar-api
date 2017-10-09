@@ -1,0 +1,10 @@
+devMode: true
+db:
+  driver: pdo_mysql
+  host: 127.0.0.1
+  user: root
+  password: root
+  dbname: calendar
+doctrine:
+  mappingPaths:
+    - Infrastructure/Persistence/Doctrine/Mapping
