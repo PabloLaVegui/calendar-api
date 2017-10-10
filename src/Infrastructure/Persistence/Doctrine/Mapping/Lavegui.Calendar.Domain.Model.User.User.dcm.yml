@@ -1,0 +1,16 @@
+Lavegui\Calendar\Domain\Model\User\User:
+  type: entity
+  table: user
+  indexes:
+    email_index:
+      columns: [ email ]
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    username:
+      type: string
+    email:
+      type: string
