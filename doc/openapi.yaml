@@ -1,0 +1,42 @@
+openapi: 3.0.0
+
+info:
+  title: Calendar API
+  version: 1.0.0
+  description: An API to get calendar info
+
+servers:
+  - url: http://localhost:{port}/{basePath}
+    description: Development API server
+    variables:
+      port:
+        default: '8080'
+      basePath:
+        default: v1
+
+paths:
+  /support:
+    post:
+      summary: Creates a support
+      description: Adds a new support
+      requestBody:
+        description: Support payload
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - date
+              properties:
+                email:
+                  type: string
+                date:
+                  type: string
+                  format: date
+      responses:
+        204:
+          description: Support succesfully created
+        400:
+          description: Support couldn't have been created
