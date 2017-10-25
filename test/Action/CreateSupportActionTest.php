@@ -33,13 +33,28 @@ class CreateSupportActionTest extends TestCase
         $this->assertSame(204, $response->getStatusCode());
     }
 
-    /** @test */
-    public function without_email_should_return_bad_request()
+    /**
+     * @return array
+     */
+    public function badEmailDataProvider()
     {
-        $data = [
-            'date' => '2017-10-20',
+        return [
+            'email is required' => [
+                ['date' => '2017-10-20']
+            ],
+            'email can not be empty' => [
+                ['date' => '2017-10-20', 'email' => '']
+            ]
         ];
+    }
 
+    /**
+     * @dataProvider badEmailDataProvider
+     * @test
+     * @param array $data
+     */
+    public function incorrect_email_should_return_bad_request($data)
+    {
         $request = Request::createFromEnvironment(new Environment());
         $request = $request->withParsedBody($data);
 
