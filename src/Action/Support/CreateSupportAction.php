@@ -10,6 +10,18 @@ use Slim\Http\Response;
  */
 class CreateSupportAction
 {
+    /** @var CreateSupportRequestValidator */
+    private $requestValidator;
+
+    /**
+     * CreateSupportAction constructor.
+     * @param CreateSupportRequestValidator $requestValidator
+     */
+    public function __construct(CreateSupportRequestValidator $requestValidator)
+    {
+        $this->requestValidator = $requestValidator;
+    }
+
     /**
      * @param Request $request
      * @param Response $response
@@ -17,6 +29,13 @@ class CreateSupportAction
      */
     public function __invoke(Request $request, Response $response)
     {
+        $errors = $this->requestValidator->validate($request);
+
+        if (!empty($errors)) {
+            return $response->withStatus(400)
+                ->withJson(['errors' => $errors]);
+        }
+
         return $response->withStatus(204);
     }
 }
