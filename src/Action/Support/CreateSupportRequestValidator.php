@@ -24,6 +24,12 @@ class CreateSupportRequestValidator
         if (isset($data['email']) && empty($data['email'])) {
             $errors[] = ['message' => 'Email can not be empty'];
         }
+        if (!isset($data['date'])) {
+            $errors[] = ['message' => 'The date is required'];
+        }
+        if (isset($data['date']) && empty($data['date'])) {
+            $errors[] = ['message' => 'Date can not be empty'];
+        }
 
         return $errors;
     }

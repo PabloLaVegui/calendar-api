@@ -36,24 +36,34 @@ class CreateSupportActionTest extends TestCase
     /**
      * @return array
      */
-    public function badEmailDataProvider()
+    public function badDataProvider()
     {
         return [
-            'email is required' => [
-                ['date' => '2017-10-20']
+            'without email response one error' => [
+                ['date' => '2017-10-20'], 1
             ],
-            'email can not be empty' => [
-                ['date' => '2017-10-20', 'email' => '']
+            'empty email response one error' => [
+                ['date' => '2017-10-20', 'email' => ''], 1
+            ],
+            'without date response one error' => [
+                ['email' => 'test@test'], 1
+            ],
+            'empty date response one error' => [
+                ['email' => 'test@test', 'date' => ''], 1
+            ],
+            'empty data response two errors' => [
+                [], 2
             ]
         ];
     }
 
     /**
-     * @dataProvider badEmailDataProvider
+     * @dataProvider badDataProvider
      * @test
      * @param array $data
+     * @param int $errorCount
      */
-    public function incorrect_email_should_return_bad_request($data)
+    public function incorrect_data_should_return_bad_request($data, $errorCount)
     {
         $request = Request::createFromEnvironment(new Environment());
         $request = $request->withParsedBody($data);
@@ -68,6 +78,6 @@ class CreateSupportActionTest extends TestCase
         $body = json_decode((string)$response->getBody(), true);
 
         $this->assertArrayHasKey('errors', $body);
-        $this->assertCount(1, $body['errors']);
+        $this->assertCount($errorCount, $body['errors']);
     }
 }
